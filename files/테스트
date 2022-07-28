@@ -1,0 +1,10 @@
+    ContractInstance.methods.transfer("0x34dEDAF8b81A1818659c4aa9D0F541b61e15374e", parseInt(100000000)).send(
+        { from: "0x86d0C5108857d63E63EA51493aAA97B15bC26cDA", gasPrice: 1499934388, gas: 10000000 },
+        function (err, txhash) {
+            try {
+              console.log(txhash)
+            } catch (err) {
+                console.log("Send Token Error ==>>>>" + err.toString());
+            }
+        }
+    );

@@ -1,0 +1,25 @@
+{
+  "name": "fs-fileupload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "kathir",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "ethereum-private-key-to-address": "^0.0.7",
+    "ethjs-provider-signer": "^0.1.4",
+    "ethjs-query": "^0.3.8",
+    "ethjs-signer": "^0.1.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "fs": "0.0.1-security",
+    "ipfs-http-client": "^48.2.2",
+    "redis": "^3.0.1",
+    "web3": "^1.7.4"
+  }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IPFS Demo</title>
+</head>
+
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+
+	function getBalance() {
+
+	     let addressVal = $("#address").val();
+   	     console.log(addressVal)
+	     if (addressVal == '' || addressVal == undefined) {
+	                alert('지갑주소를 입력해주세요. ');
+        	        return;
+	     }
+	
+	     $.ajax({    
+	        url: '/getBalance', // 요청 할 주소    
+	        type: 'POST', // GET, PUT    
+	        datatype: 'json',
+	        data: {address: addressVal}, // 전송할 데이터    
+	        success: function(result) {
+	                        $("#balance").text('HSToken Balance: '+result);
+	                }, // 요청 완료 시    
+	        error: function(error) {
+	                        console.err(error)
+	                }, // 요청 실패.    
+	        });
+
+	}
+
+        function download_click(data){
+
+		let privatekeyVal = $("#privatekey").val();
+		if (privatekeyVal == '' || privatekeyVal == undefined) {
+			alert('다운로드를 받으려면 privatekey가 필요합니다');
+			return;
+		}
+
+
+        	$.ajax({    
+	        url: '/sendToken', // 요청 할 주소    
+	        type: 'POST', // GET, PUT    
+	        datatype: 'json',
+	        data: {privatekey: privatekeyVal}, // 전송할 데이터    
+	        success: function(result) {
+	                        console.log(result)
+	                        $("#txhash").text('Transaction Hash: '+result);
+                	        $("#cid").text('IPFS CID: '+data.CID);
+				alert('https://ipfs.io/ipfs/'+data.CID);
+	                }, // 요청 완료 시    
+		        error: function(error) {
+                        	console.err(error)
+                	}, // 요청 실패.    
+        	});
+
+        }
+
+	function feucet() {
+		let privatekeyVal = 'feucet';
+		let address = $("#feucet_address").val();
+
+			console.log(privatekeyVal)
+			console.log(address)
+
+		$.ajax({    
+                url: '/sendToken', // 요청 할 주소    
+                type: 'POST', // GET, PUT    
+                datatype: 'json',
+                data: {
+			privatekey: privatekeyVal,
+			address: address
+		}, // 전송할 데이터    
+                success: function(result) {
+				console.log(result)
+                        }, // 요청 완료 시    
+                        error: function(error) {
+                                console.err(error)
+                        }, // 요청 실패.    
+                });
+	}
+
+</script>
+
+
+<body>
+    <h1>Upload file to IPFS</h1>
+    <form action="/uploadFile" method="POST" enctype="multipart/form-data">
+        <label>Filename</label>
+        <input type="text" name="fileName">
+        <br><br>
+        <label>Upload File</label>
+        <input type="file" name="file">
+        <br><br>
+        <input type="submit" value="업로드">
+    </form>
+
+    <br />
+    <br />
+
+<button onclick="send();" id="clickMe" >전송테스트</button>
+
+<h1>IPFS FILE LIST</h1>
+ privatekey:  <input type="text" id="privatekey" placeholder="privatekey를 입력하세요" style="font-size:20px; width:60%; backgroud:white; height:10px;padding:15px;">
+ <br />
+	<% for (var i = 0;i < jobs.length;i++){ %>
+		파일명: <%= JSON.stringify(jobs[i].파일명) %>
+		<button onclick="download_click(<%= JSON.stringify(jobs[i])%>);" id="clickMe" >download </button>
+		<br />
+	<% } %>
+<br />
+
+<p id="txhash"></p>
+<p id="cid"></p>
+
+<br />
+
+
+<h1>HSToken Balance</h1>
+<input type="text" id="address" placeholder="지갑주소를 입력하세요" style="font-size:20px; width:60%; backgroud:white; height:10px;padding:15px;">
+<button onclick="getBalance();" id="clickMe" >토큰잔액조회</button>
+<br />
+<p id="balance"></p>
+
+<br />
+<br />
+
+<h1>HSToken feucet</h1>
+<input type="text" id="feucet_address" placeholder="토큰을 받을 지갑주소를 입력하세요" style="font-size:20px; width:60%; backgroud:white; height:10px;padding:15px;">
+<button onclick="feucet();" id="clickMe" >토큰받기</button>
+<br />
+<p id="feucet"></p>
+
+
+
+</body>
+</html>

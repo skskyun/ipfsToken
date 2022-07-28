@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IPFS Demo</title>
+</head>
+
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+	function token_click(){
+        let privatekeyVal = $("#privatekey").val();
+
+        if (privatekeyVal == '' || privatekeyVal == undefined) {
+                alert('privatekey가 필요합니다');
+                return;
+        }
+
+
+	$.ajax({    
+	url: '/sendToken', // 요청 할 주소    
+	type: 'POST', // GET, PUT    
+	datatype: 'json',
+	data: {privatekey: privatekeyVal}, // 전송할 데이터    
+//	dataType: 'text', // xml, json, script, html    
+	success: function(result) {
+			console.log(result)
+			$("#txhash").text('Transaction Hash: '+result);
+		}, // 요청 완료 시    
+	error: function(error) {
+			console.err(error)
+		}, // 요청 실패.    
+	});
+	
+	
+        }
+	
+</script>
+<body>
+    <h1>File Uploaded</h1>
+    <p>File Name: <%= fileName %></p>
+    <p>IPFS Link: <a href="https://ipfs.io.ipfs/<%= fileHash %>"><%= fileHash %></a></p>
+    <div>
+	  privatekey:  <input type="text" id="privatekey" placeholder="privatekey를 입력하세요" style="font-size:30px; width:80%; backgroud:white; padding:15px;">
+	    <button onclick="token_click();" id="clickMe" style="background-color: #77af9c;color: #d7fff1; width:300px; height:100px; font-size:30px; " type="button">Send Token</button>
+    </div>
+    <div>
+	<p id="txhash"></p>
+    </div>
+</body>
+</html>
